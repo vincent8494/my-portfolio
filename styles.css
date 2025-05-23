@@ -1483,92 +1483,177 @@ footer {
 /* Responsive Design */
 @media (max-width: 768px) {
     /* Mobile Navigation */
+    /* Touch-friendly cursor styles */
+    * {
+        cursor: pointer;
+    }
+    
+    /* Touch-friendly hover effects */
+    .touch-hover {
+        transition: all 0.3s ease;
+    }
+    
+    .touch-hover:hover,
+    .touch-hover:active {
+        transform: translateY(-2px);
+        opacity: 0.9;
+    }
+    
+    /* Touch-friendly buttons */
+    button,
+    .btn {
+        min-width: 120px;
+        min-height: 40px;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+    
+    /* Touch-friendly links */
+    a {
+        padding: 0.5rem;
+    }
+    
+    /* Touch-friendly inputs */
+    input,
+    textarea {
+        padding: 0.75rem;
+        font-size: 1rem;
+        border-radius: 8px;
+    }
+    
+    /* Touch-friendly navigation */
     .nav-toggle {
         display: block;
+        padding: 1rem;
     }
-
+    
     .nav-links {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 80px; /* Adjusted to be below navbar */
-        right: -100%;
-        width: 80%;
-        height: calc(100vh - 80px);
-        background: #111827;
-        padding: 2rem 1.5rem;
-        transition: right 0.3s ease;
-        z-index: 1001;
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--bg-color);
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
-
+    
     .nav-links.active {
-        right: 0;
+        display: block;
     }
-
+    
     .nav-links li {
-        margin-bottom: 1.5rem;
+        margin: 1rem 0;
     }
-
+    
     .nav-links a {
-        font-size: 1.2rem;
-        padding: 0.5rem 0;
+        padding: 1rem;
+        font-size: 1.1rem;
     }
-
-    /* Add padding to content below navbar */
-    .hero, .about, .projects, .documents, .contact {
-        padding-top: 80px;
+    
+    /* General Layout Adjustments */
+    .container {
+        padding: 1.5rem;
     }
-
+    
     /* Hero Section */
-    .hero {
-        height: auto;
-        padding: 12rem 0 4rem;
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 3rem 1rem;
+        gap: 2rem;
     }
-
-    .hero h1 {
-        font-size: 2.5rem;
+    
+    .left-tiles {
+        margin-bottom: 3rem;
     }
-
-    .tagline {
-        font-size: 1.2rem;
+    
+    .side-tile {
+        margin: 1.5rem 0;
+        width: 100%;
+        min-height: 100px;
     }
-
+    
     /* About Section */
     .about-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+        flex-direction: column;
         text-align: center;
+        padding: 3rem 1rem;
+        gap: 2rem;
     }
-
-    .about-image {
-        margin: 0 auto;
+    
+    .about-text {
+        margin-bottom: 2rem;
     }
-
+    
+    /* Experience Section */
+    .experience-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .info-tile {
+        min-height: 200px;
+    }
+    
     /* Projects Section */
     .projects-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
-
+    
     .project-card {
+        min-height: 300px;
         padding: 1.5rem;
     }
-
-    /* Contact Form */
-    .contact-form {
-        padding: 1.5rem;
+    
+    /* Contact Section */
+    .contact-sections {
+        flex-direction: column;
+        gap: 3rem;
+        padding: 3rem 1rem;
     }
-
-    .contact-form input,
-    .contact-form textarea {
+    
+    .contact-info-section {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .contact-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.5rem;
+        width: 100%;
+    }
+    
+    .contact-info .info-item {
+        width: 100%;
+        text-align: left;
         padding: 1rem;
     }
-
-    /* General */
-    .container {
-        padding: 0 1rem;
+    
+    .contact-info .info-item i {
+        margin-right: 1rem;
     }
-
+    
+    .contact-info .info-item p {
+        margin: 0.75rem 0;
+    }
+    
+    /* Footer */
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 3rem 1rem;
+        gap: 1.5rem;
+    }
+    
+    .footer-brand {
+        margin-bottom: 1.5rem;
+    }
+    
     h2 {
         font-size: 2rem;
     }
