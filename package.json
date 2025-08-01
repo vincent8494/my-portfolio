@@ -1,0 +1,28 @@
+{
+  "name": "portfolio-website",
+  "version": "1.0.0",
+  "description": "Personal portfolio website with mobile optimization",
+  "main": "index.html",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "python3 -m http.server 9000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "portfolio",
+    "responsive",
+    "mobile-first"
+  ],
+  "author": "Vincent Maruge Kang'ethe",
+  "license": "MIT",
+  "devDependencies": {
+    "clean-css": "^5.3.3",
+    "terser": "^5.43.1"
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "not IE_Mob 11",
+    "maintained node versions"
+  ]
+}

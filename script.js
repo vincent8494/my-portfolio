@@ -53,10 +53,151 @@ function copyToClipboard(text, event) {
     }, 2000);
 }
 
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            // Close mobile menu if open
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks && navLinks.classList.contains('active')) {
+                toggleMenu();
+            }
+            
+            // Calculate the header offset
+            const headerOffset = 80;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            // Smooth scroll to the target
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+            
+            // Update URL without jumping
+            if (history.pushState) {
+                history.pushState(null, null, targetId);
+            } else {
+                window.location.hash = targetId;
+            }
+        }
+    });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Mobile menu toggle
+    // Mobile menu elements
     const navToggle = document.querySelector('.nav-toggle');
     const navLinks = document.querySelector('.nav-links');
+    const navLinksItems = document.querySelectorAll('.nav-link');
+    const body = document.body;
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    // Create overlay element
+    const overlay = document.createElement('div');
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
+    
+    // Toggle mobile menu
+    function toggleMenu() {
+        const isOpening = !navLinks.classList.contains('active');
+        
+        if (isOpening) {
+            // Opening menu
+            navLinks.classList.add('active');
+            overlay.classList.add('active');
+            body.classList.add('menu-open');
+            
+            // Add event listener for swipe to close
+            document.addEventListener('touchstart', handleTouchStart, false);
+            document.addEventListener('touchmove', handleTouchMove, false);
+        } else {
+            // Closing menu
+            navLinks.classList.remove('active');
+            overlay.classList.remove('active');
+            body.classList.remove('menu-open');
+            
+            // Remove event listeners
+            document.removeEventListener('touchstart', handleTouchStart, false);
+            document.removeEventListener('touchmove', handleTouchMove, false);
+        }
+    }
+    
+    // Touch event handlers for swipe to close
+    function handleTouchStart(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }
+    
+    function handleTouchMove(e) {
+        if (!touchStartX) return;
+        
+        touchEndX = e.changedTouches[0].screenX;
+        const difference = touchStartX - touchEndX;
+        
+        // If swiped left (close menu)
+        if (difference > 50) {
+            toggleMenu();
+        }
+    }
+    
+    // Toggle menu on button click
+    navToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
+    });
+    
+    // Close menu when clicking on a nav link
+    navLinksItems.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMenu();
+        });
+    });
+    
+    // Close menu when clicking overlay
+    overlay.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
+    });
+    
+    // Close menu when pressing Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+    
+    // Add ripple effect to buttons
+    function createRipple(event) {
+        const button = event.currentTarget;
+        const circle = document.createElement('span');
+        const diameter = Math.max(button.clientWidth, button.clientHeight);
+        const radius = diameter / 2;
+        
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+        circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+        circle.classList.add('ripple');
+        
+        const ripple = button.getElementsByClassName('ripple')[0];
+        if (ripple) {
+            ripple.remove();
+        }
+        
+        button.appendChild(circle);
+    }
+    
+    // Add ripple effect to all buttons
+    const buttons = document.querySelectorAll('.btn, .nav-toggle');
+    buttons.forEach(button => {
+        button.addEventListener('click', createRipple);
+    });
     
     // Contact form submission
     const contactForm = document.getElementById('contactForm');
